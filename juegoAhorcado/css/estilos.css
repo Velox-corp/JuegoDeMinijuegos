@@ -1,0 +1,42 @@
+body{
+    width: 960px;
+    margin: 0 auto;  
+    background-size:500px 500px;
+    /*background-repeat:repeat-y;
+    /*background-position: 30px;*/
+}
+
+h1{
+    color:#ACEDFF;
+    text-shadow:  3px  0px 0px black,
+               0px  3px 0px black,
+              -3px  0px 0px black,
+               0px -3px 0px black;
+    font-family: "Avant Garde";
+    font-size: 70px;
+    padding: 80px 50px;
+    text-align: center;
+    text-transform: uppercase;
+    text-rendering: optimizeLegibility;
+
+}
+
+#pantalla{
+  border: groove 8px gold;
+
+}
+
+#boton{
+background-color: #F5B700;
+color: #2C0703;
+font-size: 20px;
+text-align: center;
+font-weight: bolder;
+padding: 3px;
+border: solid 2px #D9F2B4;
+}
+
+#boton:hover{ /* Estilo que se activa al pasar el puntero sobre el boton */
+    font-size: 22px;
+    border: groove 4px #CEF7A0;
+}
