@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.acomodarCentro{
+    display: flex;
+    justify-content: center;
+    clear: both;
+}
+#canvas{
+    border: 2px solid black;
+}
+#izquierda{
+    float: left;
+}
+#derecha{
+    float: right;
+    margin-bottom: 1rem;
+}
