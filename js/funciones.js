@@ -6,10 +6,10 @@
             var letras = "QWERTYUIOPASDFGHJKLÑZXCVBNM";
             var colorTecla = "#6CD4FF";
             var colorMargen = "blue";
-            var inicioX = 200;
+            var inicioX = 40;
             var inicioY = 300;
             var lon = 35;
-            var margen = 20;
+            var margen = 10;
             var pistaText = "";
 
             /* Arreglos */
@@ -20,7 +20,8 @@
             /* Variables de control */
             var aciertos = 0;
             var errores = 0;
-            
+            //Variable extra para salir del mini-jeugo
+            var game_over = false;
             /* Palabras */
             palabras_array.push("MARCUS");
             palabras_array.push("LOCUS");
@@ -101,7 +102,7 @@
                 }
                 // Pintamos la palabra en el canvas , en este ejemplo se pinta arriba a la izquierda //
                 ctx.fillStyle = "#B4C5E4";  // Aqui ponemos el color de la letra
-                ctx.font = "bold 30px Courier";  // aqui ponemos el tipo y tamaño de la letra
+                ctx.font = "bold 20px Courier";  // aqui ponemos el tipo y tamaño de la letra
                 ctx.fillText(pista, 15, 20);  // aqui ponemos la frase en nuestro caso la variable pista , seguido de la posx y posy
             }
            
@@ -125,7 +126,7 @@
                         col = 0;
                         ren++;
                         if(ren==2){
-                            x = 280;
+                            x = 120;
                         } else {
                             x = inicioX;
                         }
@@ -137,7 +138,9 @@
             
             /* aqui obtenemos nuestra palabra aleatoriamente y la dividimos en letras */
             function pintaPalabra(){
-                var p = Math.floor(Math.random()*palabras_array.length);
+                //var p = Math.floor(Math.random()*palabras_array.length);
+                //No va a ser aleatorio de momento
+                var p = 0
                 palabra = palabras_array[p];
       
                 pistaFunction(palabra);
@@ -153,6 +156,7 @@
                     letra = palabra.substr(i,1);
                     miLetra = new Letra(x, y, lon, lon, letra);
                     miLetra.dibuja();
+                    miLetra.dibujaLetra()
                     letras_array.push(miLetra);
                     x += lon + margen;
                 }
@@ -162,9 +166,8 @@
             function horca(errores){
                 var imagen = new Image();
                 imagen.src = "imagenes/ahorcado"+errores+".png";
-                imagen.onload = function(){
-                    ctx.drawImage(imagen, 390, 0, 230, 230);
-                }
+                ctx.drawImage(imagen, canvas.width/3, 0, canvas.width/3, canvas.height/3);
+                
                 /*************************************************
                 // Imagen 2 mas pequeña a un lado de la horca //       
                 var imagen = new Image();
@@ -226,31 +229,63 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "#00A7E1";
 
-                ctx.font = "bold 50px Courier";
+                ctx.font = "bold 20px Courier";
                 if (errores < 5){
-                    ctx.fillText("Muy bien, la palabra es: ", 110, 280);
+                    ctx.fillText("Muy bien, la palabra es: ", 30, 280);
                 } else {
-                    ctx.fillText("Lo sentimos, la palabra era: ", 110, 280);
+                    ctx.fillText("Lo sentimos, la palabra era: ", 30, 280);
                 }
                 
                 ctx.font = "bold 80px Courier";
                 lon = (canvas.width - (palabra.length*48))/2;
                 ctx.fillText(palabra, lon, 380);
                 horca(errores);
+
             }
             
             /* Detectar si se a cargado nuestro contexco en el canvas, iniciamos las funciones necesarias para jugar o se le manda msj de error segun sea el caso */
-            window.onload = function(){
-                canvas = document.getElementById("pantalla");
-                if (canvas && canvas.getContext){
-                    ctx = canvas.getContext("2d");
-                    if(ctx){
-                        teclado();
-                        pintaPalabra();
-                        horca(errores);
-                        canvas.addEventListener("click", selecciona, false);
-                    } else {
-                        alert ("Error al cargar el contexto!");
-                    }
+            init = function(){
+                canvas = document.getElementById("canvas");
+                canvas.width=500;
+                canvas.height=500;
+                console.log("Hola")
+                function animar (){
+                    window.requestAnimationFrame(animar)
+                    teclado();
+                    pintaPalabra();
+                    horca(errores);
                 }
+                    if (canvas && canvas.getContext){
+                        ctx = canvas.getContext("2d");
+                        if(ctx){
+                            canvas.addEventListener("click", selecciona, false);
+                            animar()
+                        } else {
+                            alert ("Error al cargar el contexto!");
+                        }
+                    }
+                
+                
+            }
+            init()
+
+            //funciones auxuliares
+            //para que imprima en todo momento
+            window.requestAnimFrame = (function () {
+                return  window.requestAnimationFrame        ||
+                    window.webkitRequestAnimationFrame  ||
+                    window.mozRequestAnimationFrame     ||
+                    window.oRequestAnimationFrame       ||
+                    window.msRequestAnimationFrame      ||
+                    function ( /* function */ callback, /* DOMElement */ element) {
+                        window.setTimeout(callback, 1000 / 60);
+                    };
+            })();
+            //cierra el canvas
+            function terminar(canvas){
+                var ctx = canvas.getContext("2d")
+                ctx.clearRect(0,0, canvas.width, canvas.height);
+            }
+            function mandarScore(score){
+                document.score.score_global.value +=score;
             }

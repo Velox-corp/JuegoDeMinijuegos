@@ -65,23 +65,23 @@
             }
             switch (this.monopoly.casilla) {
                 case 2:
-                    importarJuego("js/juego_maquina_vapor.js")
+                    importarJuego("js/kirby.js");
                     break;
                 case 3:
-                    importarJuego("js/juego_maquina_vapor.js")
+                    importarJuego("js/funciones.js");
                     break;
                 case 4:
-                    importarJuego("js/juego_maquina_vapor.js")
+                    importarJuego("js/juego_maquina_vapor.js");
                     
                     break;
                 case 5:
-                    window.location.href="index.html";
+                    importarJuego("js/mario.js");
                     break;
                 case 6:
-                    window.location.href="Videojuego_MK11.html";
+                    importarJuego("js/ping_pong.js");
                     break;
                 case 7:
-                    window.location.href="snake.html";
+                    importarJuego("js/snake.js");
                     break;
                 default:
                     break;
@@ -155,7 +155,7 @@ window.requestAnimFrame = (function () {
 })();
 
 
-//Experimento
+//Experimento, este metodo trata el script de cada mini-juego, para que se ejecute en el index
 function importarJuego(ruta) {
     var script = document.createElement("script");
     script.src= ruta;

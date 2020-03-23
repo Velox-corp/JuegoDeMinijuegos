@@ -120,7 +120,7 @@ var juegoMh = (function  () {
 		verBienMal();
 	}
 	function draw(){
-		ctx.drawImage(buffer,0,0)
+		ctx.drawImage(buffer,0,0,canvas.width,canvas.height)
 	}
 	function drawBackground () {
 		var fondo;
