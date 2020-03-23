@@ -270,7 +270,7 @@ class Comida extends object {
         this.y = this.generate();
     }
     generate() {
-        var num = (Math.floor(Math.random() * 59)) * 10;
+        var num = (Math.floor(Math.random() * 100)) * 10;
         return num;
     }
     colocar() {
@@ -303,14 +303,14 @@ function control(event) {
     var cod = event.keyCode;
     if (ex) {
         if (cod == 38) {
-            ydir = -size;
+            ydir = -10;
             xdir = 0;
             ex = false;
             ey = true;
             cuerpo.src = 'img/ca.png';
         }
         if (cod == 40) {
-            ydir = size;
+            ydir = 10;
             xdir = 0;
             ex = false;
             ey = true;
@@ -320,14 +320,14 @@ function control(event) {
     if (ey) {
         if (cod == 37) {
             ydir = 0;
-            xdir = -size;
+            xdir = -10;
             ey = false;
             ex = true;
             cuerpo.src = 'img/ci.png';
         }
         if (cod == 39) {
             ydir = 0;
-            xdir = size;
+            xdir = 10;
             ey = false;
             ex = true;
             cuerpo.src = 'img/cd.png';
@@ -370,7 +370,9 @@ function draw() {
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    ctx.fillStyle = '#8D99AE';
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fill();
     head.dibujar(ctx);
     comida.dibujar(ctx);
 }
@@ -379,10 +381,25 @@ function main() {
     choquepared();
     draw();
     move();
-    document.getElementById("puntuaciones").innerHTML = tamanio;
+    //document.getElementById("puntuaciones").innerHTML = tamanio;
+    var inicio = 0;
+    inicio = document.score.score_global.value;
+    inicio += tamanio;
+    document.score.score_global.value = inicio;
     if (head.golpe(comida)) {
         comida.colocar();
         head.meter();
     }
+    var si = setTimeout(GameOver, 90000);
+    if(si){
+        //setTimeout( function () {
+            window.requestAnimationFrame(main)
+        //}, 70); //esto es lo que le da la velocidad un tanto op xDD
+    } else {
+        GameOver();
+    }
 }
-setInterval("main()", velocity);
+
+//setInterval("main()", velocity);
+
+window.requestAnimationFrame(main);

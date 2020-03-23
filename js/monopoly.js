@@ -81,7 +81,7 @@
                     importarJuego("js/ping_pong.js");
                     break;
                 case 7:
-                    importarJuego("js/snake.js");
+                    importarJuego("js/juego_s.js");
                     break;
                 default:
                     break;
