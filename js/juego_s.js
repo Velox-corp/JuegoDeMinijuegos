@@ -342,6 +342,10 @@ function GameOver() {
     ey = true;
     head = new snake(20, 20);
     comida = new Comida();
+    var inicio = 0;
+    inicio = document.score.score_global.value;
+    inicio += tamanio;
+    document.score.score_global.value = inicio;
     alert("GAME OVER");
 }
 function choquepared() {
@@ -382,10 +386,7 @@ function main() {
     draw();
     move();
     //document.getElementById("puntuaciones").innerHTML = tamanio;
-    var inicio = 0;
-    inicio = document.score.score_global.value;
-    inicio += tamanio;
-    document.score.score_global.value = inicio;
+    
     if (head.golpe(comida)) {
         comida.colocar();
         head.meter();
