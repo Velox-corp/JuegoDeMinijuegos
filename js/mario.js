@@ -22,10 +22,10 @@
             if (!this.over) {
                 if (this.x + this.w > this.canvas.width) {
                     this.estado_actual.src = "img/mario/mario_prueba-l.png";
-                    this.direction *= -1;
+                    this.direction *= -1.5;
                 } else if (this.x < 0) {
                     this.estado_actual.src = "img/mario/mario_prueba.png";
-                    this.direction *= -1;
+                    this.direction *= -1.1;
                 }
                 if (!this.isOnFloor()) {
                     this.y += 1.81;
@@ -58,7 +58,8 @@ background = new Image();
 background.src = "img/mario/mario-background.png";
 var mario = new Mario(0, 100, ctx, canvas, 50, 50);
 var fps = 60;
-var text = "has click sobre mario para ganar";
+var text = 'has click sobre mario para ganar\n ¡tienes 5 seg!';
+var posibilidad = true;
 
 //Mouse
 let mouse = {
@@ -69,7 +70,7 @@ let mouse = {
 canvas.addEventListener("click", function(e) {
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
-    if (Math.abs(mouse.x - mario.x) < 50 && Math.abs(mouse.y - mario.y) < 50) {
+    if (Math.abs(mouse.x - mario.x) < 50 && Math.abs(mouse.y - mario.y) < 50 && posibilidad) {
         text = "¡Felicidades has ganado!";
         mario.over = true;
     } else {
@@ -86,4 +87,9 @@ window.onload = function() {
         ctx.fillText(text, 10, 50);
         mario.update();
     }, 1000 / fps);
+    setInterval(function() {
+        text = "¡Lo siento has perdido!";
+        posibilidad = false;
+        mario.over = true;
+    }, 5000);
 }
