@@ -64,7 +64,7 @@ function text(txt, fnt, x, y, c) {
 }
 
 canvas.onclick = function sum() {
-    if  (clicks==10)
+    if  (clicks==100)
     {
         text('Ganaste', '45px Comic Sams MS',canvas.width/2-105, canvas.height/2-22.5, 'white');
         sleep.src="img/kirby/64.png";
