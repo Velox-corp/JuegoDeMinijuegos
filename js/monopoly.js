@@ -30,8 +30,8 @@
 (function () {
     self.Dado = function (monpoly) {
         this.cara = new Image()
-        this.valorCara = 0
-        this.monopoly = monopoly
+        this.valorCara = 0,
+        this.monopoly = monopoly;
         this.fueLanzado = false;
     }
     self.Dado.prototype = {
@@ -51,8 +51,38 @@
                     break;
                 case 3:
                     this.cara.src="img/dado_3.png";
+
                     break;
  
+                default:
+                    break;
+            }
+            this.verMinijuego()
+        },
+        verMinijuego: function () {
+            if(!this.fueLanzado){
+                return;
+            }
+            switch (this.monopoly.casilla) {
+                case 2:
+                    importarJuego("js/juego_maquina_vapor.js")
+                    break;
+                case 3:
+                    importarJuego("js/juego_maquina_vapor.js")
+                    break;
+                case 4:
+                    importarJuego("js/juego_maquina_vapor.js")
+                    
+                    break;
+                case 5:
+                    window.location.href="index.html";
+                    break;
+                case 6:
+                    window.location.href="Videojuego_MK11.html";
+                    break;
+                case 7:
+                    window.location.href="snake.html";
+                    break;
                 default:
                     break;
             }
@@ -76,34 +106,8 @@
             drawBg(this.ctx,this.monopoly.bg,this.canvas)
             drawPersonaje(this.ctx,this.monopoly.personaje,this.canvas,this.monopoly.casilla)
             drawDado(this.ctx,this.dado.cara,this.canvas)
-        },
-        verPosPer: function () {
-            if(!this.dado.fueLanzado){
-                return;
-            }
-            switch (this.monopoly.casilla) {
-                case 2:
-                    window.location.href="kirby.html";
-                    break;
-                case 3:
-                    window.location.href="JuegoAhorcado.html";
-                    break;
-                case 4:
-                    window.location.href="juegoMH.html";
-                    break;
-                case 5:
-                    window.location.href="index.html";
-                    break;
-                case 6:
-                    window.location.href="Videojuego_MK11.html";
-                    break;
-                case 7:
-                    window.location.href="snake.html";
-                    break;
-                default:
-                    break;
-            }
         }
+        
     }
 })();
 
@@ -150,6 +154,15 @@ window.requestAnimFrame = (function () {
         };
 })();
 
+
+//Experimento
+function importarJuego(ruta) {
+    var script = document.createElement("script");
+    script.src= ruta;
+    document.querySelector("head").appendChild(script);
+
+}
+
 //Ejecutor
 function init() {
     var canvas = document.getElementById('canvas');
@@ -172,7 +185,7 @@ function init() {
         window.requestAnimationFrame(animar);
         monopoly.personajeSeleccionado()
         cargarMonopoly.draw()
-        cargarMonopoly.verPosPer()
     }
+
     animar()
 }

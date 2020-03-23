@@ -8,7 +8,6 @@ window.requestAnimFrame = (function () {
             window.setTimeout(callback, 1000 / 60);
         };
 })();
-
 var juegoMh = (function  () {
 	// Variables de la aplicación
 	var canvas,
@@ -45,8 +44,10 @@ var juegoMh = (function  () {
 	keyMap={
 		1:49,
 		2:50,
-		3:51		
-	}
+		3:51,
+		salir:32		
+	},
+	gameOver=false
 
 
 	//Primeor voy a ahcer todas las funciones que me permitan ver el canvas
@@ -83,7 +84,6 @@ var juegoMh = (function  () {
 
 		canvas = document.getElementById('canvas');
 		ctx = canvas.getContext("2d")
-
 		buffer = document.createElement('canvas')
 		buffer.width = canvas.width;
 		buffer.height = canvas.height;
@@ -97,9 +97,14 @@ var juegoMh = (function  () {
 		addListener(document, 'keypress', teclas )
 
 		function animar () {
-			// body...
 			loop()
-			requestAnimationFrame(animar)
+			if(!gameOver){
+				requestAnimationFrame(animar)
+			}else{
+				actualizarScore();
+				return
+			}
+			
 		}
 		animar();
 	}
@@ -113,8 +118,6 @@ var juegoMh = (function  () {
 		pulsacionesJugador();
 		//Actualizar cambios en todoMomento
 		verBienMal();
-		//ver score
-		actualizarScore();
 	}
 	function draw(){
 		ctx.drawImage(buffer,0,0)
@@ -261,6 +264,15 @@ var juegoMh = (function  () {
 		}
 	}
 
+	function terminar(){
+		gameOver=true;
+		setTimeout(function () {
+			ctx.clearRect(0,0, canvas.width, canvas.height);
+			//ver score
+		actualizarScore();
+		})
+	}
+
 	function pulsacionesJugador () {
 		orden.leerTecla();
 	}
@@ -283,29 +295,28 @@ var juegoMh = (function  () {
                 keyPressed[inkey] = false;
             }
         }
-        //Obtenemos el valor, y se lo ponemos a la variable ketPressed
-        if(key==49){
-        	keyPressed=1;
-        	if(activo1){
-        		contador++;
-        	}
+		//Obtenemos el valor, y se lo ponemos a la variable ketPressed
+		switch (key) {
+			case 49:
+				keyPressed=1;
+				if(activo1){
+					contador++;
+				}
+				break;
+			case 50:
+				keyPressed=2;
+				if(activo2){
+					contador++;
+				}
+				break;
+			case 51:
+				keyPressed=3;
+				if(activo3){
+					contador++;
+				}
+				break;
         }
-
-        if(key==50){
-        	keyPressed=2;
-        	if (activo2){
-        		contador++;
-        	};
-        		
-        }
-
-        if(key==51){
-        	keyPressed=3;
-        	if (activo3){
-        		contador++;
-        	};
-        		
-        }
+        
 
     }
 
@@ -399,19 +410,30 @@ var juegoMh = (function  () {
     						columna3.src='img/activado.png'
     					}else{
     						img3=estaMalImg
-    					}
+						}
     					break;
-    				}
+					}
+				setTimeout(terminar, 2000)
     			break;
     	
-    	}
-    }
-
+		}
+		
+	}
+	
+	function terminar() {
+		gameOver=true;
+		ctx.clearRect(0,0, canvas.width, canvas.height);
+	}
+	
     function actualizarScore () {
-    	document.contScore.mScore.value=score;
+		var incremento = score
+    	document.score.score_global.value += incremento;
     }
 	//El final 
 	return {
 		init: init
 	}
 })();
+
+juegoMh.init()
+
