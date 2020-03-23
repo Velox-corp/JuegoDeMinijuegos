@@ -58,6 +58,7 @@ background = new Image();
 background.src = "img/mario/mario-background.png";
 var mario = new Mario(0, 100, ctx, canvas, 50, 50);
 var fps = 60;
+var text = "has click sobre mario para ganar";
 
 //Mouse
 let mouse = {
@@ -68,22 +69,13 @@ let mouse = {
 canvas.addEventListener("click", function(e) {
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
-    console.log("X: " + mouse.x + " y: " + mouse.y);
-    if (MouseOn(mario)) {
-        console.log("Mouse arriba de mario");
+    if (Math.abs(mouse.x - mario.x) < 50 && Math.abs(mouse.y - mario.y) < 50) {
+        text = "¡Felicidades has ganado!";
         mario.over = true;
     } else {
-        console.log("Algo volvio a salir mal");
+        console.log(mouse);
     }
 });
-
-function MouseOn(a) {
-    if ((mouse.x > a.x && mouse.y > a.y && mouse.x < a.x + a.width && mouse.y < a.y + a.height)) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 //Controller
 window.onload = function() {
@@ -91,7 +83,7 @@ window.onload = function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         ctx.font = "30px Arial";
-        ctx.fillText("Has click sobre mario para ganar el juego", 10, 50);
+        ctx.fillText(text, 10, 50);
         mario.update();
     }, 1000 / fps);
 }
