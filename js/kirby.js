@@ -93,6 +93,7 @@ function ganar(){
     gameover=true;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     var score_global= document.score.score_global.value
+    score_global =parseInt(score_global);
     score_global+=Math.floor(1);
     document.score.score_global.value=score_global
 }

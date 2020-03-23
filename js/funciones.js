@@ -255,7 +255,6 @@
                 canvas = document.getElementById("canvas");
                 canvas.width=500;
                 canvas.height=500;
-                console.log("Hola")
                 var p = Math.floor(Math.random()*palabras_array.length);
                 function animar (){
                     teclado();
@@ -321,6 +320,7 @@
                 //Mnadamos el score al monopoly
                 score=parseInt(score)
                 var score_global =document.score.score_global.value;
+                score_global = parseInt(score_global);
                 score_global+=score;
                 document.score.score_global.value=score_global
             }

@@ -7,7 +7,7 @@
         this.bg = bg;
         this.personaje = personaje
         this.scoreGlobal = 0
-        this.casilla=1
+        this.casilla=2
     }
     self.Monopoly.prototype = {
         personajeSeleccionado: function () {
