@@ -11,6 +11,8 @@
             var lon = 35;
             var margen = 10;
             var pistaText = "";
+            var bg = new Image()
+            bg.src='imagenes/gear.jpg'
 
             /* Arreglos */
             var teclas_array = new Array();
@@ -109,6 +111,7 @@
                     
              /* Distribuir nuestro teclado con sus letras respectivas al acomodo de nuestro array */
             function teclado(){
+                //dibujar fondo
                 var ren = 0;
                 var col = 0;
                 var letra = "";
@@ -156,7 +159,6 @@
                     letra = palabra.substr(i,1);
                     miLetra = new Letra(x, y, lon, lon, letra);
                     miLetra.dibuja();
-                    miLetra.dibujaLetra()
                     letras_array.push(miLetra);
                     x += lon + margen;
                 }
@@ -166,7 +168,7 @@
             function horca(errores){
                 var imagen = new Image();
                 imagen.src = "imagenes/ahorcado"+errores+".png";
-                ctx.drawImage(imagen, canvas.width/3, 0, canvas.width/3, canvas.height/3);
+                ctx.drawImage(imagen, canvas.width/3, canvas.height/12, canvas.width/3, canvas.height/3);
                 
                 /*************************************************
                 // Imagen 2 mas pequeña a un lado de la horca //       
@@ -220,7 +222,10 @@
                     ctx.clearRect(tecla.x - 1, tecla.y - 1, tecla.ancho + 2, tecla.alto + 2);
                     tecla.x - 1;
                     /* checa si se gano y manda a la funcion gameover */
-                    if (aciertos == palabra.length) gameOver(errores);
+                    if (aciertos == palabra.length){
+                         gameOver(errores);
+
+                    }
                 }
             }
             
@@ -231,14 +236,15 @@
 
                 ctx.font = "bold 20px Courier";
                 if (errores < 5){
-                    ctx.fillText("Muy bien, la palabra es: ", 30, 280);
+                    ctx.fillText("Muy bien, la palabra es: ", 30, 200);
+                    setTimeout(terminar, 2000)
                 } else {
-                    ctx.fillText("Lo sentimos, la palabra era: ", 30, 280);
+                    ctx.fillText("Lo sentimos, la palabra era: ", 30, 200);
                 }
                 
-                ctx.font = "bold 80px Courier";
-                lon = (canvas.width - (palabra.length*48))/2;
-                ctx.fillText(palabra, lon, 380);
+                ctx.font = "bold 60px Courier";
+                lon_aux = (canvas.width - (palabra.length*48))/2;
+                ctx.fillText(palabra, lon_aux, 100);
                 horca(errores);
 
             }
@@ -250,10 +256,18 @@
                 canvas.height=500;
                 console.log("Hola")
                 function animar (){
-                    window.requestAnimationFrame(animar)
-                    teclado();
-                    pintaPalabra();
-                    horca(errores);
+                    if(!game_over){
+                        drawBg()
+                        window.requestAnimationFrame(animar)
+                        teclado();
+                        pintaPalabra();
+                        horca(errores);
+                    }else{
+                        mandarScore(1);
+                        return
+                    }
+
+                    
                 }
                     if (canvas && canvas.getContext){
                         ctx = canvas.getContext("2d");
@@ -281,11 +295,21 @@
                         window.setTimeout(callback, 1000 / 60);
                     };
             })();
+
+            function drawBg(){
+                ctx.drawImage(bg, 0,0, canvas.width, canvas.height)
+            }
             //cierra el canvas
-            function terminar(canvas){
-                var ctx = canvas.getContext("2d")
+            function terminar(){
                 ctx.clearRect(0,0, canvas.width, canvas.height);
+                game_over=true
+                //Este error hace que tarde en desaparecer
+                ctx.clearRect(0,0, canvas.width, canvas.height);
+                bg.src='img/Tablero.jpg';
+
             }
             function mandarScore(score){
+                score=parseInt(score)
                 document.score.score_global.value +=score;
             }
+
