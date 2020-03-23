@@ -111,9 +111,9 @@ var juegoMh = (function  () {
 
 	function update () {
 		drawBackground();
-		bufferctx.drawImage(boton1, boton1.posX, boton1.posY,51,51);
-		bufferctx.drawImage(boton2, boton2.posX, boton2.posY,51,51);
-		bufferctx.drawImage(boton3, boton3.posX, boton3.posY,51,51);
+		bufferctx.drawImage(boton1, boton1.posX, boton1.posY,102,102);
+		bufferctx.drawImage(boton2, boton2.posX, boton2.posY,102,102);
+		bufferctx.drawImage(boton3, boton3.posX, boton3.posY,102,102);
 		//detectar teclas en todo momento
 		pulsacionesJugador();
 		//Actualizar cambios en todoMomento
@@ -125,14 +125,14 @@ var juegoMh = (function  () {
 	function drawBackground () {
 		var fondo;
 		fondo = bg;
-		bufferctx.drawImage(fondo,0,0)
+		bufferctx.drawImage(fondo,0,0,canvas.width,canvas.height)
 		//Las columnas entran en el background
 		var col1 = columna1
 		var col2 = columna2
 		var col3= columna3
-		bufferctx.drawImage(col1, 0*canvas.width/12, canvas.height/12, 102,76.5)
-		bufferctx.drawImage(col2, 4*canvas.width/12, canvas.height/12, 102,76.5)
-		bufferctx.drawImage(col3, 8*canvas.width/12, canvas.height/12, 102,76.5)
+		bufferctx.drawImage(col1, 1*canvas.width/6-76.5, canvas.height/2 -100, 153,105)
+		bufferctx.drawImage(col2, 3*canvas.width/6-76.5, canvas.height/2 - 100, 153,105)
+		bufferctx.drawImage(col3, 5*canvas.width/6-76.5, canvas.height/2 - 100, 153,105)
 	}
 
 	//Aquí empezamos a hacer la parte logica
@@ -148,7 +148,7 @@ var juegoMh = (function  () {
 		boton = new Image();
 		boton.src= 'img/'+ id + '.png';
 		//Localizar mis 3 botones si que se encimen
-		boton.posX = (id*canvas.width/3) - 3*canvas.width/12
+		boton.posX = (2*id*canvas.width/6) -canvas.width/6 - 51
 		boton.posY = (canvas.height/2)
 		boton.puntos = 1;
 		boton.estaBien = false;
@@ -322,9 +322,9 @@ var juegoMh = (function  () {
 
     function verBienMal () {
     	// Va a imprimir palomitas o taches
-    	a1=bufferctx.drawImage(img1,(boton1.posX+boton1.width/8), (boton1.posY+boton1.height/8), 25.5,25.5)
-    	a2=bufferctx.drawImage(img2,(boton2.posX+boton2.width/8), (boton2.posY+boton2.height/8), 25.5,25.5)
-    	a3=bufferctx.drawImage(img3,(boton3.posX+boton3.width/8), (boton3.posY+boton3.height/8), 25.5,25.5)
+    	a1=bufferctx.drawImage(img1,(boton1.posX+boton1.width/4), (boton1.posY+boton1.height/4), 51,51)
+    	a2=bufferctx.drawImage(img2,(boton2.posX+boton2.width/4), (boton2.posY+boton2.height/4), 51,51)
+    	a3=bufferctx.drawImage(img3,(boton3.posX+boton3.width/4), (boton3.posY+boton3.height/4), 51,51)
     	switch(contador){
     		case 0:
     			return	
@@ -426,8 +426,10 @@ var juegoMh = (function  () {
 	}
 	
     function actualizarScore () {
-		var incremento = parseInt(score)
-    	document.score.score_global.value += incremento;
+		var incremento = Math.floor(parseInt(score))
+		var score_global = document.score.score_global.value;
+		score_global += incremento;
+		document.score.score_global.value=incremento;
     }
 	//El final 
 	return {

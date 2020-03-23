@@ -140,10 +140,8 @@
             
             
             /* aqui obtenemos nuestra palabra aleatoriamente y la dividimos en letras */
-            function pintaPalabra(){
-                //var p = Math.floor(Math.random()*palabras_array.length);
-                //No va a ser aleatorio de momento
-                var p = 0
+            function pintaPalabra(p){
+                
                 palabra = palabras_array[p];
       
                 pistaFunction(palabra);
@@ -159,6 +157,9 @@
                     letra = palabra.substr(i,1);
                     miLetra = new Letra(x, y, lon, lon, letra);
                     miLetra.dibuja();
+                    if(game_over){
+                        miLetra.dibujaLetra()
+                    }
                     letras_array.push(miLetra);
                     x += lon + margen;
                 }
@@ -255,12 +256,16 @@
                 canvas.width=500;
                 canvas.height=500;
                 console.log("Hola")
+                var p = Math.floor(Math.random()*palabras_array.length);
                 function animar (){
+                    teclado();
+                        pintaPalabra(p);
+                        horca(errores);
                     if(!game_over){
                         drawBg()
                         window.requestAnimationFrame(animar)
                         teclado();
-                        pintaPalabra();
+                        pintaPalabra(p);
                         horca(errores);
                     }else{
                         mandarScore(1);
@@ -303,13 +308,20 @@
             function terminar(){
                 ctx.clearRect(0,0, canvas.width, canvas.height);
                 game_over=true
+                //Imprimir la parte final
+                ctx.fillStyle = "#00A7E1";
+                ctx.font = "bold 20px Courier";
+                ctx.fillText("Muy bien, la palabra es: ", 30, 150);
                 //Este error hace que tarde en desaparecer
                 ctx.clearRect(0,0, canvas.width, canvas.height);
                 bg.src='img/Tablero.jpg';
-
+                
             }
             function mandarScore(score){
+                //Mnadamos el score al monopoly
                 score=parseInt(score)
-                document.score.score_global.value +=score;
+                var score_global =document.score.score_global.value;
+                score_global+=score;
+                document.score.score_global.value=score_global
             }
 
