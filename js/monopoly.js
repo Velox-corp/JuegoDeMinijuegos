@@ -7,11 +7,15 @@ var inicial = true;
         this.bg = bg;
         this.personaje = personaje
         this.scoreGlobal = 0
+<<<<<<< HEAD
         if (inicial){
             this.casilla=1
         } else {
             this.casilla = 6;
         }
+=======
+        this.casilla=2
+>>>>>>> c6d29d841c7dd9f1189d8abcc1bfb0180d9dfb39
     }
     self.Monopoly.prototype = {
         personajeSeleccionado: function () {

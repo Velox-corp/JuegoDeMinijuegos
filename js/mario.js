@@ -38,7 +38,7 @@
             this.dibujar();
         },
         isOnFloor: function() {
-            if (this.y >= 289) {
+            if (this.y >= 370) {
                 return true;
             } else {
                 return false;
@@ -50,8 +50,8 @@
 
 //Script en general
 var canvas = document.getElementById("canvas");
-canvas.height = 400;
-canvas.width = 600;
+canvas.height = 500;
+canvas.width = 500;
 ctx = canvas.getContext("2d");
 var rect = canvas.getBoundingClientRect();
 background = new Image();
@@ -79,17 +79,30 @@ canvas.addEventListener("click", function(e) {
 });
 
 //Controller
-window.onload = function() {
-    setInterval(function() {
+function controller() {
+    function animacion() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         ctx.font = "30px Arial";
         ctx.fillText(text, 10, 50);
         mario.update();
-    }, 1000 / fps);
-    setInterval(function() {
+        requestAnimationFrame(controller);
+    };
+    if(!mario.over){
+        animacion();
+    }
+    setTimeout(function() {
         text = "¡Lo siento has perdido!";
         posibilidad = false;
         mario.over = true;
+        mandarScore();
     }, 5000);
 }
+
+function mandarScore(){
+    var score_global = document.score.score_global.value;
+    score_global= parseInt(score_global);
+    score_global += 1;
+    document.score.score_global.value= score_global;
+}
+requestAnimationFrame(controller);

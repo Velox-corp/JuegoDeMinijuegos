@@ -428,6 +428,7 @@ var juegoMh = (function  () {
     function actualizarScore () {
 		var incremento = Math.floor(parseInt(score))
 		var score_global = document.score.score_global.value;
+		score_global = parseInt(score_global);
 		score_global += incremento;
 		document.score.score_global.value=incremento;
     }
