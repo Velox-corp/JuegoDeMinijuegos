@@ -107,10 +107,12 @@ function endGame(winner) {
   if (ball.left < 0) {
     alert(`0 PUNTOS`);
     location.href="";//AQUI ES EL ENLACE PARA REDIRECCIONAR SI PIERDE
+    window.location.href = "index.html?score=0";
   }
   else if (ball.left > $pong.width() - $ball.width()) {
     alert(`Obtienes 1 Punto ¡Felicidades!`);
     location.href="";//AQUI ES EL ENLACE PARA REDIRECCIONAR SI GANA
+    window.location.href = "index.html?score=1";
   } 
   
 }

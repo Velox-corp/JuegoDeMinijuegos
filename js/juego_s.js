@@ -212,7 +212,7 @@ var o = setInterval("inicio()", velocidad); //funcion e intervalo de tempo (ms),
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var velocity = 180;
-var size = 40;
+var size = 17;
 
 class object {
     constructor() {
@@ -270,7 +270,7 @@ class Comida extends object {
         this.y = this.generate();
     }
     generate() {
-        var num = (Math.floor(Math.random() * 100)) * 10;
+        var num = (Math.floor(Math.random() * 100)) + 10;
         return num;
     }
     colocar() {
@@ -303,14 +303,14 @@ function control(event) {
     var cod = event.keyCode;
     if (ex) {
         if (cod == 38) {
-            ydir = -10;
+            ydir = -size;
             xdir = 0;
             ex = false;
             ey = true;
             cuerpo.src = 'img/ca.png';
         }
         if (cod == 40) {
-            ydir = 10;
+            ydir = size;
             xdir = 0;
             ex = false;
             ey = true;
@@ -320,36 +320,42 @@ function control(event) {
     if (ey) {
         if (cod == 37) {
             ydir = 0;
-            xdir = -10;
+            xdir = -size;
             ey = false;
             ex = true;
             cuerpo.src = 'img/ci.png';
         }
         if (cod == 39) {
             ydir = 0;
-            xdir = 10;
+            xdir = size;
             ey = false;
             ex = true;
             cuerpo.src = 'img/cd.png';
         }
     }
 }
-
+var yafue = false;
 function GameOver() {
     xdir = 0;
     ydir = 0;
     ex = true;
     ey = true;
-    head = new snake(20, 20);
-    comida = new Comida();
+    //head = new snake(20, 20);
+    //comida = new Comida();
     var inicio = 0;
     inicio = document.score.score_global.value;
-    inicio += tamanio;
-    document.score.score_global.value = inicio;
+    var fin = inicio + tamanio;
+    document.score.score_global.value = fin;
     alert("GAME OVER");
+    yafue = true;
+    var fondo;
+        fondo = new Image();
+        fondo.src = "img/Tablero.jpg";
+        //ctx.clearRect(0,0, canvas.width, canvas.height);
+        ctx.drawImage(fondo, 0, 0, canvas.width, canvas.height);
 }
 function choquepared() {
-    if (head.x < 0 || head.x > 700 || head.y < 0 || head.y > 600) {
+    if (head.x < 0 || head.x > 500 || head.y < 0 || head.y > 600) {
         GameOver();
     }
 }
@@ -379,6 +385,14 @@ function draw() {
 	ctx.fill();
     head.dibujar(ctx);
     comida.dibujar(ctx);
+
+    if(yafue){
+        var fondo;
+        fondo = new Image();
+        fondo.src = "img/Tablero.jpg";
+        //ctx.clearRect(0,0, canvas.width, canvas.height);
+        ctx.drawImage(fondo, 0, 0, canvas.width, canvas.height);
+    }
 }
 function main() {
     choquecuerpo();
@@ -399,6 +413,8 @@ function main() {
     } else {
         GameOver();
     }
+
+    
 }
 
 //setInterval("main()", velocity);

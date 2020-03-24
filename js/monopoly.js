@@ -1,4 +1,4 @@
-
+var inicial = true;
 //A crear los "objetos"
 (function () {
     self.Monopoly=function(width, height, bg, personaje) {
@@ -7,7 +7,11 @@
         this.bg = bg;
         this.personaje = personaje
         this.scoreGlobal = 0
-        this.casilla=1
+        if (inicial){
+            this.casilla=1
+        } else {
+            this.casilla = 6;
+        }
     }
     self.Monopoly.prototype = {
         personajeSeleccionado: function () {
@@ -78,7 +82,8 @@
                     importarJuego("js/mario.js");
                     break;
                 case 6:
-                    importarJuego("js/ping_pong.js");
+                    //importarJuego("js/ping_pong.js");
+                    window.location.href = "Videojuego_MK11.html";
                     break;
                 case 7:
                     importarJuego("js/juego_s.js");
@@ -165,12 +170,33 @@ function importarJuego(ruta) {
 
 //Ejecutor
 function init() {
+    //checar si vienes de mk
+    var valor = obtenerValorParametro('score');
+    if (valor){
+        if (valor == 0){
+            alert("Mas cero");
+            document.score.score_global.value += 0;
+            inicial = false;
+        } else if(valor == 1){
+            alert("Mas uno");
+            document.score.score_global.value += 1;
+            inicial = false;
+        } else {
+            alert("No alteres la url porfavor");
+        }
+    }else{
+        //en lo mientras xd
+        //alert("El parámetro no existe en la URL");
+    }
+    //fin de checar
     var canvas = document.getElementById('canvas');
     var tablero = new Image();
     tablero.src="img/Tablero.jpg";
     var personaje = new Image();
     personaje.src='img/felyne_per.png';
     monopoly = new Monopoly(500,500,tablero,personaje);
+    
+
     cara = new Image()
     cara.src='img/dado_1.png'
     dado = new Dado(monopoly)
@@ -186,6 +212,17 @@ function init() {
         monopoly.personajeSeleccionado()
         cargarMonopoly.draw()
     }
-
     animar()
+}
+
+function obtenerValorParametro(sParametroNombre) {
+    var sPaginaURL = window.location.search.substring(1);
+     var sURLVariables = sPaginaURL.split('&');
+      for (var i = 0; i < sURLVariables.length; i++) {
+        var sParametro = sURLVariables[i].split('=');
+        if (sParametro[0] == sParametroNombre) {
+          return sParametro[1];
+        }
+      }
+     return null;
 }
