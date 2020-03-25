@@ -41,6 +41,7 @@
             if (this.y >= 370) {
                 return true;
             } else {
+                this.estado_actual.src = "img/mario/mario_jump.png";
                 return false;
             }
         }
@@ -74,6 +75,10 @@ canvas.addEventListener("click", function(e) {
     if (Math.abs(mouse.x - mario.x) < 50 && Math.abs(mouse.y - mario.y) < 50 && posibilidad) {
         mario.over = true;
         ganado = true;
+        mario.estado_actual.src = "img/mario/mario_over.png";
+        setTimeout(function() {
+            return;
+        }, 5000);
         alamacenar(1);
     } else {
         return;
@@ -91,6 +96,10 @@ function controller() {
         setTimeout(function() {
             posibilidad = false;
             mario.over = true;
+            setTimeout(function() {
+                var titulo = document.getElementsByTagName("h1")[0];
+                titulo.innerHTML = "Lo siento has perdido :(";
+            }, 5000);
             window.location.href = "index.html";
         }, 5000);
     }
