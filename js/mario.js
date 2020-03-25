@@ -41,7 +41,11 @@
             if (this.y >= 370) {
                 return true;
             } else {
-                this.estado_actual.src = "img/mario/mario_jump.png";
+                if (this.direction == 1) {
+                    this.estado_actual.src = "img/mario/mario_jump.png";
+                } else if (this.direction == -1) {
+                    this.estado_actual.src = "img/mario/mario_jump-l.png";
+                }
                 return false;
             }
         }
@@ -76,6 +80,7 @@ canvas.addEventListener("click", function(e) {
         mario.over = true;
         ganado = true;
         mario.estado_actual.src = "img/mario/mario_over.png";
+        alert("Feclicidades has ganado, puntos: 1");
         setTimeout(function() {
             return;
         }, 5000);
@@ -96,10 +101,6 @@ function controller() {
         setTimeout(function() {
             posibilidad = false;
             mario.over = true;
-            setTimeout(function() {
-                var titulo = document.getElementsByTagName("h1")[0];
-                titulo.innerHTML = "Lo siento has perdido :(";
-            }, 5000);
             window.location.href = "index.html";
         }, 5000);
     }
