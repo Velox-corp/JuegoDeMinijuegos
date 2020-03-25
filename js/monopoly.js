@@ -6,9 +6,9 @@ var inicial = true;
         this.height = height;
         this.bg = bg;
         this.personaje = personaje
-        this.scoreGlobal = 0
+        this.scoreGlobal = 0;
         if (inicial) {
-            this.casilla = 1
+            this.casilla = 1;
         } else {
             this.casilla = 6;
         }
@@ -28,6 +28,12 @@ var inicial = true;
                     this.personaje.src = "img/kitana.gif";
                     break;
             }
+        },
+        get score() {
+            return this.scoreGlobal;
+        },
+        set score(score) {
+            this.scoreGlobal = score;
         }
     }
 })();
@@ -42,9 +48,13 @@ var inicial = true;
         tirarDado: function() {
             this.fueLanzado = true;
             this.valorCara = parseInt(Math.random() * 3 + 1);
-            this.monopoly.casilla += this.valorCara;
+            var valor = parseInt(localStorage.getItem("dado"));
+            valor += this.valorCara;
+            this.monopoly.casilla = valor;
+            localStorage.setItem("dado", valor);
             if (this.monopoly.casilla > 7) {
-                this.monopoly.casilla = 7;
+                this.monopoly.casilla = 1;
+                localStorage.setItem("dado", 1);
             }
             switch (this.valorCara) {
                 case 1:
@@ -113,9 +123,9 @@ var inicial = true;
     self.CargarMonopoly.prototype = {
 
         draw: function() {
-            drawBg(this.ctx, this.monopoly.bg, this.canvas)
-            drawPersonaje(this.ctx, this.monopoly.personaje, this.canvas, this.monopoly.casilla)
-            drawDado(this.ctx, this.dado.cara, this.canvas)
+            drawBg(this.ctx, this.monopoly.bg, this.canvas);
+            drawPersonaje(this.ctx, this.monopoly.personaje, this.canvas, this.monopoly.casilla);
+            drawDado(this.ctx, this.dado.cara, this.canvas);
         }
 
     }
@@ -186,6 +196,7 @@ function importarJuego(ruta) {
 //Ejecutor
 function init() {
     //checar si vienes de mk
+    /*
     var valor = obtenerValorParametro('score');
     //Alamacenador de datos para el escore
     if (valor) {
@@ -205,6 +216,11 @@ function init() {
         //alert("El parámetro no existe en la URL");
     }
     //fin de checar
+    */
+
+    //Codigo para alamcenar la puntuación del tablero
+
+
     var canvas = document.getElementById('canvas');
     var tablero = new Image();
     tablero.src = "img/Tablero.jpg";
@@ -212,10 +228,12 @@ function init() {
     personaje.src = 'img/felyne_per.png';
     monopoly = new Monopoly(500, 500, tablero, personaje);
 
+    monopoly.score = parseInt(localStorage.getItem("score_global"));
+    document.score.score_global.value = monopoly.score;
 
     cara = new Image()
     cara.src = 'img/dado_1.png'
-    dado = new Dado(monopoly)
+    dado = new Dado(monopoly);
     cargarMonopoly = new CargarMonopoly(canvas, monopoly, dado);
     cargarMonopoly.draw();
     document.addEventListener("keypress", function(ev) {
@@ -232,6 +250,7 @@ function init() {
     animar()
 }
 
+/*
 function obtenerValorParametro(sParametroNombre) {
     var sPaginaURL = window.location.search.substring(1);
     var sURLVariables = sPaginaURL.split('&');
@@ -243,3 +262,4 @@ function obtenerValorParametro(sParametroNombre) {
     }
     return null;
 }
+*/

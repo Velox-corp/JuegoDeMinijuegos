@@ -329,6 +329,7 @@
 
  }
 
+ /*
  function mandarScore(score) {
      //Mnadamos el score al monopoly
      score = parseInt(score);
@@ -336,4 +337,4 @@
      score_global = parseInt(score_global);
      score_global += score;
      document.score.score_global.value = score_global;
- }
+ }*/
