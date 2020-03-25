@@ -72,13 +72,11 @@ canvas.addEventListener("click", function(e) {
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
     if (Math.abs(mouse.x - mario.x) < 50 && Math.abs(mouse.y - mario.y) < 50 && posibilidad) {
-        console.log("Ha fanagaso")
-        text = "¡Felicidades has ganado!";
         mario.over = true;
         ganado = true;
         alamacenar(1);
     } else {
-        console.log(mouse);
+        return;
     }
 });
 
@@ -91,9 +89,9 @@ function controller() {
     }
     if (!ganado) {
         setTimeout(function() {
-            text = "¡Lo siento has perdido!";
             posibilidad = false;
             mario.over = true;
+            window.location.href = "index.html";
         }, 5000);
     }
 
@@ -111,7 +109,7 @@ function alamacenar(puntuacion) {
     var score_global = parseInt(localStorage.getItem("score_global"));
     score_global += puntuacion;
     localStorage.setItem("score_global", score_global);
-    window.location.href = "index.html?score=0";
+    window.location.href = "index.html";
 }
 
 /*

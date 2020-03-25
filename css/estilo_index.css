@@ -1,21 +1,32 @@
-*{
+* {
     margin: 0;
     padding: 0;
     background-color: black;
     color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
 }
-#acomodarCentro{
+
+#titulo {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#acomodarCentro {
     display: flex;
     justify-content: center;
     clear: both;
 }
-#canvas{
+
+#canvas {
     border: 2px solid black;
 }
-#izquierda{
+
+#izquierda {
     float: left;
 }
-#derecha{
+
+#derecha {
     float: right;
     margin-bottom: 1rem;
 }
