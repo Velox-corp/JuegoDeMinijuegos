@@ -239,7 +239,7 @@ class snake extends object {
     dibujar(ctx) {
         if (this.next != null) {
             this.next.dibujar(ctx);
-        } 
+        }
 
         //ctx.fillStyle = "#FFFFFF";
         ctx.drawImage(cuerpo, this.x, this.y, this.size, this.size);
@@ -294,11 +294,13 @@ var ey = true;
 var xdir = 0;
 var ydir = 0;
 var cuerpo = new Image();
+
 function move() {
     var nx = head.x + xdir;
     var ny = head.y + ydir;
     head.setxy(nx, ny);
 }
+
 function control(event) {
     var cod = event.keyCode;
     if (ex) {
@@ -335,6 +337,7 @@ function control(event) {
     }
 }
 var yafue = false;
+
 function GameOver() {
     xdir = 0;
     ydir = 0;
@@ -343,22 +346,36 @@ function GameOver() {
     //head = new snake(20, 20);
     //comida = new Comida();
     var inicio = 0;
+    /*
+    ------Mejoraras de mantenimiento para servicio mas estable-----
     inicio = document.score.score_global.value;
     var fin = inicio + tamanio;
     document.score.score_global.value = fin;
+    */
     alert("GAME OVER");
     yafue = true;
+    alamacenar(inicio + tamanio);
     var fondo;
-        fondo = new Image();
-        fondo.src = "img/Tablero.jpg";
-        //ctx.clearRect(0,0, canvas.width, canvas.height);
-        ctx.drawImage(fondo, 0, 0, canvas.width, canvas.height);
+    fondo = new Image();
+    fondo.src = "img/Tablero.jpg";
+    //ctx.clearRect(0,0, canvas.width, canvas.height);
+    ctx.drawImage(fondo, 0, 0, canvas.width, canvas.height);
 }
+
+//Almacenar datos en el navegador
+function alamacenar(puntuacion) {
+    var score_global = parseInt(localStorage.getItem("score_global"));
+    score_global += puntuacion;
+    localStorage.setItem("score_global", score_global);
+    window.location.href = "index.html?score=0";
+}
+
 function choquepared() {
     if (head.x < 0 || head.x > 500 || head.y < 0 || head.y > 600) {
         GameOver();
     }
 }
+
 function choquecuerpo() {
     var temp = null;
     try {
@@ -368,7 +385,7 @@ function choquecuerpo() {
     }
     while (temp != null) {
         if (head.golpe(temp)) {
-            
+
             GameOver();
         } else {
             temp = temp.verSiguiente();
@@ -381,12 +398,12 @@ function draw() {
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#8D99AE';
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	ctx.fill();
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fill();
     head.dibujar(ctx);
     comida.dibujar(ctx);
 
-    if(yafue){
+    if (yafue) {
         var fondo;
         fondo = new Image();
         fondo.src = "img/Tablero.jpg";
@@ -394,27 +411,28 @@ function draw() {
         ctx.drawImage(fondo, 0, 0, canvas.width, canvas.height);
     }
 }
+
 function main() {
     choquecuerpo();
     choquepared();
     draw();
     move();
     //document.getElementById("puntuaciones").innerHTML = tamanio;
-    
+
     if (head.golpe(comida)) {
         comida.colocar();
         head.meter();
     }
     var si = setTimeout(GameOver, 90000);
-    if(si){
+    if (si) {
         //setTimeout( function () {
-            window.requestAnimationFrame(main)
-        //}, 70); //esto es lo que le da la velocidad un tanto op xDD
+        window.requestAnimationFrame(main)
+            //}, 70); //esto es lo que le da la velocidad un tanto op xDD
     } else {
         GameOver();
     }
 
-    
+
 }
 
 //setInterval("main()", velocity);

@@ -58,8 +58,9 @@ background = new Image();
 background.src = "img/mario/mario-background.png";
 var mario = new Mario(0, 100, ctx, canvas, 50, 50);
 var fps = 60;
-var text = 'has click sobre mario para ganar\n ¡tienes 5 seg!';
+var text = '';
 var posibilidad = true;
+var ganado = false;
 
 //Mouse
 let mouse = {
@@ -71,15 +72,31 @@ canvas.addEventListener("click", function(e) {
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
     if (Math.abs(mouse.x - mario.x) < 50 && Math.abs(mouse.y - mario.y) < 50 && posibilidad) {
+        console.log("Ha fanagaso")
         text = "¡Felicidades has ganado!";
         mario.over = true;
+        ganado = true;
+        alamacenar(1);
     } else {
         console.log(mouse);
     }
 });
 
+//LocalStorage --> Sirve para guardardar info en el navegador 
+
 //Controller
 function controller() {
+    if (!mario.over) {
+        animacion();
+    }
+    if (!ganado) {
+        setTimeout(function() {
+            text = "¡Lo siento has perdido!";
+            posibilidad = false;
+            mario.over = true;
+        }, 5000);
+    }
+
     function animacion() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -88,21 +105,23 @@ function controller() {
         mario.update();
         requestAnimationFrame(controller);
     };
-    if(!mario.over){
-        animacion();
-    }
-    setTimeout(function() {
-        text = "¡Lo siento has perdido!";
-        posibilidad = false;
-        mario.over = true;
-        mandarScore();
-    }, 5000);
+}
+//Almacenar datos en el navegador
+function alamacenar(puntuacion) {
+    var score_global = parseInt(localStorage.getItem("score_global"));
+    score_global += puntuacion;
+    localStorage.setItem("score_global", score_global);
+    window.location.href = "index.html?score=0";
 }
 
-function mandarScore(){
+/*
+----------Mojoras para una servicio mas estable------------
+function mandarScore() {
+    alamacenar(1);
     var score_global = document.score.score_global.value;
-    score_global= parseInt(score_global);
+    score_global = parseInt(score_global);
     score_global += 1;
-    document.score.score_global.value= score_global;
+    document.score.score_global.value = score_global;
 }
+*/
 requestAnimationFrame(controller);
